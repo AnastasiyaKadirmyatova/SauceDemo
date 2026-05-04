@@ -2,9 +2,15 @@ package tests;
 
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertTrue;
+import static pages.CartPage.getProduct;
+
 public class CartTest extends BaseTest {
 
-    @Test
+    @Test(testName = "Добавление товара в корзину",
+            description = "Добавление товара в корзину",
+            groups = {"cart", "smoke"},
+            retryAnalyzer = Retry.class)
     public void verifyAddToCart() {
         String product = "Sauce Labs Bike Light";
 
@@ -12,10 +18,12 @@ public class CartTest extends BaseTest {
         productsPage
                 .addCartProduct(product)
                 .openCart();
-        cartPage.verifyProductInCart(product);
+        verifyProductInCart(product);
     }
 
-    @Test
+    @Test(testName = "Удаление товара из корзины",
+            description = "Удаление товара из корзины",
+            groups = {"cart", "smoke"})
     public void verifyRemove() {
         String product = "Sauce Labs Bike Light";
 
@@ -23,15 +31,26 @@ public class CartTest extends BaseTest {
         productsPage
                 .addCartProduct(product)
                 .openCart();
-        cartPage
-                .removeProduct(product)
-                .verifyNoProductInCart(product);
+        cartPage.removeProduct(product) ;
+        verifyNoProductInCart(product);
     }
 
-    @Test
+    @Test(testName = "Проверка открытия страницы \"Корзина\"",
+            description = "Проверка открытия страницы \"Корзина\"",
+            groups = {"cart", "smoke"})
     public void verifyOpenCartPage() {
         loginPage.authorization("standard_user", "secret_sauce");
         productsPage.openCart();
-        cartPage.verifyTitle("Your Cart");
+        verifyTitle("Your Cart");
+    }
+
+    public void verifyProductInCart(String product) {
+        assertTrue(driver.findElements(getProduct(product)).size() > 0,
+                "Товар с наименованием %s не отображается в корзине".formatted(product));
+    }
+
+    public void verifyNoProductInCart(String product) {
+        assertTrue(driver.findElements(getProduct(product)).isEmpty(),
+                "Товар с наименованием %s отображается в корзине".formatted(product));
     }
 }

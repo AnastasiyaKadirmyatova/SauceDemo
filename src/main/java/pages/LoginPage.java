@@ -2,7 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
 public class LoginPage extends BasePage {
 
@@ -32,9 +31,5 @@ public class LoginPage extends BasePage {
 
     public String getErrorMessage() {
         return driver.findElement(ERROR_MESSAGE).getText();
-    }
-
-    public void verifyErrorMessage(String error) {
-        Assert.assertEquals(getErrorMessage(), error, "Некорректный текст ошибки.");
     }
 }

@@ -3,8 +3,6 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static org.testng.Assert.assertTrue;
-
 public class CartPage extends BasePage {
 
     private final By BUTTON_CONTINUE_SHOPPING = By.xpath("//*[text()='Continue Shopping']");
@@ -14,7 +12,7 @@ public class CartPage extends BasePage {
         super(driver);
     }
 
-    public By getProduct(String product) {
+    public static By getProduct(String product) {
         return By.xpath("//div[text()='%s']//ancestor::div[@class='cart_item']".formatted(product));
     }
 
@@ -38,16 +36,5 @@ public class CartPage extends BasePage {
 
     public void checkout() {
         driver.findElement(BUTTON_CHECKOUT).click();
-    }
-
-
-    public void verifyProductInCart(String product) {
-        assertTrue(driver.findElements(getProduct(product)).size() > 0,
-                "Товар с наименованием %s не отображается в корзине".formatted(product));
-    }
-
-    public void verifyNoProductInCart(String product) {
-        assertTrue(driver.findElements(getProduct(product)).isEmpty(),
-                "Товар с наименованием %s отображается в корзине".formatted(product));
     }
 }

@@ -2,8 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-
 public class CheckoutPage extends BasePage {
 
     public CheckoutPage(WebDriver driver) {
@@ -11,7 +9,7 @@ public class CheckoutPage extends BasePage {
     }
 
     public final By BUTTON_CONTINUE = By.xpath("//input[@data-test='continue']");
-    private final By ERROR_MESSAGE = By.xpath("//*[contains(@class, 'error-message')]");
+    private static final By ERROR_MESSAGE = By.xpath("//*[contains(@class, 'error-message')]");
     private final By FIRST_NAME = By.cssSelector("#first-name");
     private final By LAST_NAME = By.cssSelector("#last-name");
     private final By POSTAL_CODE = By.cssSelector("#postal-code");
@@ -24,11 +22,7 @@ public class CheckoutPage extends BasePage {
         driver.findElement(BUTTON_CONTINUE).click();
     }
 
-    public void verifyErrorMessage(String error) {
-        Assert.assertEquals(getErrorMessage(), error, "Некорректный текст ошибки.");
-    }
-
-    public String getErrorMessage() {
+    public static String getErrorMessage() {
         return driver.findElement(ERROR_MESSAGE).getText();
     }
 
